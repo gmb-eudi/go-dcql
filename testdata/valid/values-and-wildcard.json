@@ -1,0 +1,15 @@
+{
+  "credentials": [
+    {
+      "id": "graduate",
+      "format": "dc+sd-jwt",
+      "meta": { "vct_values": ["https://credentials.example.com/graduate"] },
+      "claims": [
+        { "path": ["degrees", null, "type"], "values": ["Bachelor of Science"] },
+        { "path": ["nationalities", 1] },
+        { "path": ["age_over_18"], "values": [true] },
+        { "path": ["reward_level"], "values": [3] }
+      ]
+    }
+  ]
+}

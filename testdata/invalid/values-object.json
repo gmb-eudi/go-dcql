@@ -1,0 +1,2 @@
+{"credentials":[{"id":"pid","format":"dc+sd-jwt","meta":{"vct_values":["v"]},
+  "claims":[{"path":["x"],"values":[{"nested":true}]}]}]}
