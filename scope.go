@@ -5,8 +5,8 @@ import (
 	"slices"
 )
 
-// RegisteredCredential mirrors one Credential entry of the client's TS5
-// registered intended use (ETSI TS5 v1.3 §2.4.1/2.4.4 — WP-05 spec refs).
+// RegisteredCredential mirrors one Credential entry of the client's ARF TS5
+// registered intended use (ARF TS5 v1.3 §2.4.1/2.4.4 — WP-05 spec refs).
 type RegisteredCredential struct {
 	Format         string
 	DoctypesOrVCTs []string    // registered doctype(s) (mdoc) or vct value(s) (sd-jwt)

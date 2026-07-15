@@ -1,7 +1,7 @@
 package dcql
 
 // Preset queries for common EUDI use cases (T-05.7). Identifiers per ARF
-// 2.9: mdoc PID doctype/namespace eu.europa.ec.eudi.pid.1 (Topic 3 HLRs),
+// 2.9: mdoc PID doctype/namespace eu.europa.ec.eudi.pid.1 (ARF Topic 3 HLRs),
 // SD-JWT VC PID vct urn:eudi:pid:1 (PID_14), mDL doctype
 // org.iso.18013.5.1.mDL / namespace org.iso.18013.5.1 (ISO 18013-5).
 
