@@ -8,7 +8,7 @@ import (
 	"github.com/gmb-eudi/go-dcql"
 )
 
-// Hard rule 5: Parse+Validate must never panic on malformed input.
+// Parse+Validate must never panic on malformed input.
 func FuzzParse(f *testing.F) {
 	for _, dir := range []string{"testdata/valid", "testdata/invalid"} {
 		files, err := filepath.Glob(dir + "/*.json")

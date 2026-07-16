@@ -13,7 +13,7 @@ import (
 )
 
 // Every valid corpus file must parse, re-marshal, and re-parse to the same
-// model (T-05.1: marshal/unmarshal golden files).
+// model (marshal/unmarshal golden files).
 func TestParseMarshalRoundtrip(t *testing.T) {
 	files, err := filepath.Glob("testdata/valid/*.json")
 	if err != nil || len(files) == 0 {
@@ -44,8 +44,8 @@ func TestParseMarshalRoundtrip(t *testing.T) {
 	}
 }
 
-// T-05.1: unknown-field rejection. Strictness is deliberate at ALL levels
-// (WP-05 decision, Step 8) — this is the authoring boundary, not a wallet.
+// Unknown-field rejection. Strictness is deliberate at ALL levels —
+// this is the authoring boundary, not a wallet.
 func TestParseRejectsUnknownFields(t *testing.T) {
 	for name, doc := range map[string]string{
 		"top-level":  `{"credentials":[{"id":"a","format":"dc+sd-jwt","meta":{"vct_values":["v"]}}],"presentation_definition":{}}`,
@@ -110,8 +110,8 @@ func TestDefaults(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	// OID4VP §6.1: require_cryptographic_holder_binding defaults true;
-	// §6.2: required defaults true.
+	// [OID4VP §6.1]: require_cryptographic_holder_binding defaults true;
+	// [OID4VP §6.2]: required defaults true.
 	if !q.Credentials[0].HolderBindingRequired() {
 		t.Error("HolderBindingRequired() default = false, want true")
 	}

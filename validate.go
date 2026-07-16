@@ -8,7 +8,7 @@ import (
 	"strconv"
 )
 
-// Validate checks the semantic rules of OID4VP §6/§7 and returns all
+// Validate checks the semantic rules of [OID4VP §6/§7] and returns all
 // violations joined; each entry is a *ValidationError with a position.
 func (q *Query) Validate() error {
 	var errs []error
@@ -139,7 +139,7 @@ func validateAuthorities(c *CredentialQuery, pos string, add func(string, string
 		switch ta.Type {
 		case AuthorityTypeAKI, AuthorityTypeETSITL, AuthorityTypeOpenIDFederation:
 		default:
-			// T-05.5 acceptance: unknown type = query invalid, no fall-through.
+			// Acceptance: unknown type = query invalid, no fall-through.
 			add(tpos+".type", "unknown trusted authority type %q (§6.1.1)", ta.Type)
 		}
 		if len(ta.Values) == 0 {
@@ -153,7 +153,7 @@ func validateAuthorities(c *CredentialQuery, pos string, add func(string, string
 	}
 }
 
-// validID: §6.1/§6.3 — non-empty; alphanumeric, underscore, hyphen.
+// validID: [OID4VP §6.1/§6.3] — non-empty; alphanumeric, underscore, hyphen.
 func validID(s string) bool {
 	if s == "" {
 		return false
@@ -168,12 +168,12 @@ func validID(s string) bool {
 	return true
 }
 
-// mdocPathOK: §7.2 — exactly two elements, namespace and element, both strings.
+// mdocPathOK: [OID4VP §7.2] — exactly two elements, namespace and element, both strings.
 func mdocPathOK(p ClaimPath) bool {
 	return len(p) == 2 && p[0].Kind == KindKey && p[1].Kind == KindKey
 }
 
-// validClaimValue: §6.3 — strings, integers, booleans. json.Number after
+// validClaimValue: [OID4VP §6.3] — strings, integers, booleans. json.Number after
 // Parse; plain Go types for programmatically built queries.
 func validClaimValue(v any) bool {
 	switch n := v.(type) {

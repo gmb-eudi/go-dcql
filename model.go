@@ -6,32 +6,32 @@ const (
 	FormatSDJWT = "dc+sd-jwt" // OID4VP Annex B.3
 )
 
-// Trusted-authority query types (OID4VP §6.1.1).
+// Trusted-authority query types ([OID4VP §6.1.1]).
 const (
 	AuthorityTypeAKI              = "aki"
 	AuthorityTypeETSITL           = "etsi_tl"
 	AuthorityTypeOpenIDFederation = "openid_federation"
 )
 
-// Query is a DCQL query — faithful OID4VP §6 model, json tags exact.
+// Query is a DCQL query — faithful [OID4VP §6] model, json tags exact.
 type Query struct {
 	Credentials    []CredentialQuery    `json:"credentials"`
 	CredentialSets []CredentialSetQuery `json:"credential_sets,omitempty"`
 }
 
-// CredentialQuery per OID4VP §6.1.
+// CredentialQuery per [OID4VP §6.1].
 type CredentialQuery struct {
 	ID                                string             `json:"id"`
 	Format                            string             `json:"format"`
-	Multiple                          bool               `json:"multiple,omitempty"` // §6.1: default false
-	Meta                              *Meta              `json:"meta,omitempty"`     // §6.1: REQUIRED — enforced by Validate
+	Multiple                          bool               `json:"multiple,omitempty"` // [OID4VP §6.1]: default false
+	Meta                              *Meta              `json:"meta,omitempty"`     // [OID4VP §6.1]: REQUIRED — enforced by Validate
 	TrustedAuthorities                []TrustedAuthority `json:"trusted_authorities,omitempty"`
-	RequireCryptographicHolderBinding *bool              `json:"require_cryptographic_holder_binding,omitempty"` // §6.1: default true
+	RequireCryptographicHolderBinding *bool              `json:"require_cryptographic_holder_binding,omitempty"` // [OID4VP §6.1]: default true
 	Claims                            []ClaimsQuery      `json:"claims,omitempty"`
 	ClaimSets                         [][]string         `json:"claim_sets,omitempty"`
 }
 
-// HolderBindingRequired resolves the §6.1 default (true).
+// HolderBindingRequired resolves the [OID4VP §6.1] default (true).
 func (c *CredentialQuery) HolderBindingRequired() bool {
 	return c.RequireCryptographicHolderBinding == nil || *c.RequireCryptographicHolderBinding
 }
@@ -43,23 +43,23 @@ type Meta struct {
 	DoctypeValue string   `json:"doctype_value,omitempty"` // mso_mdoc
 }
 
-// ClaimsQuery per OID4VP §6.3.
+// ClaimsQuery per [OID4VP §6.3].
 type ClaimsQuery struct {
-	ID     string    `json:"id,omitempty"` // required when claim_sets present (§6.3)
+	ID     string    `json:"id,omitempty"` // required when claim_sets present ([OID4VP §6.3])
 	Path   ClaimPath `json:"path"`
-	Values []any     `json:"values,omitempty"` // strings, integers, booleans (§6.3)
+	Values []any     `json:"values,omitempty"` // strings, integers, booleans ([OID4VP §6.3])
 }
 
-// CredentialSetQuery per OID4VP §6.2.
+// CredentialSetQuery per [OID4VP §6.2].
 type CredentialSetQuery struct {
 	Options  [][]string `json:"options"`
-	Required *bool      `json:"required,omitempty"` // §6.2: default true
+	Required *bool      `json:"required,omitempty"` // [OID4VP §6.2]: default true
 }
 
-// IsRequired resolves the §6.2 default (true).
+// IsRequired resolves the [OID4VP §6.2] default (true).
 func (s *CredentialSetQuery) IsRequired() bool { return s.Required == nil || *s.Required }
 
-// TrustedAuthority per OID4VP §6.1.1.
+// TrustedAuthority per [OID4VP §6.1.1].
 type TrustedAuthority struct {
 	Type   string   `json:"type"`
 	Values []string `json:"values"`

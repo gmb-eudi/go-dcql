@@ -8,11 +8,11 @@ import (
 )
 
 // Candidate is one already-verified credential presented for a credential
-// query (pipeline steps 3–6 done). WP-05 decision: the matcher operates
+// query (pipeline steps 3–6 done). The matcher operates
 // post-verification only — no crypto here; the pipeline enforces that no
 // unverified candidate enters.
 type Candidate struct {
-	QueryCredID     string         // vp_token key: which credential query it answers (OID4VP §8.1)
+	QueryCredID     string         // vp_token key: which credential query it answers ([OID4VP §8.1])
 	Format          string         // mso_mdoc | dc+sd-jwt
 	DoctypeOrVCT    string         // mdoc doctype or SD-JWT VC vct
 	Claims          map[string]any // mdoc: namespace → element → value; sd-jwt: claims object
@@ -22,7 +22,7 @@ type Candidate struct {
 
 // AuthorityRef carries trust references of the candidate's verified issuer
 // chain, supplied by the pipeline; compared against trusted_authorities
-// queries (OID4VP §6.1.1, matching logic in T-05.5).
+// queries ([OID4VP §6.1.1]).
 type AuthorityRef struct {
 	AKIs            []string // base64url KeyIdentifier values of chain certs (aki)
 	TrustedListURIs []string // ETSI TS 119 612 trusted list(s) of the anchor (etsi_tl)
@@ -47,7 +47,7 @@ const (
 )
 
 // Unmet explains one failed query or set. Paths only — never claim values
-// (hard rule 3; safe for the verification report).
+// (safe for the verification report).
 type Unmet struct {
 	CredentialID string // credential query id; "" for set-level entries
 	SetIndex     int    // index into credential_sets; -1 otherwise
@@ -64,7 +64,7 @@ type MatchResult struct {
 }
 
 // Match decides whether the verified candidates satisfy the query
-// (OID4VP §6.4). Precondition: q passed Validate(). Fail closed: a candidate
+// ([OID4VP §6.4]). Precondition: q passed Validate(). Fail closed: a candidate
 // answering an unknown credential query id (over-disclosure, pipeline step
 // 8) makes the whole result unsatisfied.
 func (q *Query) Match(cands []Candidate) MatchResult {
@@ -102,7 +102,7 @@ func matchCredential(cq *CredentialQuery, cands []Candidate) (bool, []string, []
 	if len(cands) == 0 {
 		return false, nil, []Unmet{{CredentialID: cq.ID, SetIndex: -1, Reason: UnmetNoCandidate}}
 	}
-	// §6.1: multiple defaults to false — exactly one presentation per query.
+	// [OID4VP §6.1]: multiple defaults to false — exactly one presentation per query.
 	if len(cands) > 1 && !cq.Multiple {
 		return false, nil, []Unmet{{CredentialID: cq.ID, SetIndex: -1, Reason: UnmetMultiple}}
 	}
@@ -124,7 +124,7 @@ func candidateSatisfies(cq *CredentialQuery, cand *Candidate) (UnmetReason, []st
 	if !metaMatches(cq, cand) {
 		return UnmetMeta, nil
 	}
-	// §6.1: require_cryptographic_holder_binding defaults to true.
+	// [OID4VP §6.1]: require_cryptographic_holder_binding defaults to true.
 	if cq.HolderBindingRequired() && !cand.HolderBound {
 		return UnmetHolderBinding, nil
 	}
@@ -157,15 +157,15 @@ func metaMatches(cq *CredentialQuery, cand *Candidate) bool {
 	return false
 }
 
-// claimsSatisfied applies OID4VP §6.4.1 to one candidate.
+// claimsSatisfied applies [OID4VP §6.4.1] to one candidate.
 func claimsSatisfied(cq *CredentialQuery, cand *Candidate) (used, failed []string, ok bool) {
 	if len(cq.Claims) == 0 {
-		// §6.4.1: claims absent — only mandatory-to-present claims are
+		// [OID4VP §6.4.1]: claims absent — only mandatory-to-present claims are
 		// returned; no claim-level constraint. Record what was disclosed.
 		return disclosedPaths(cq.Format, cand.Claims), nil, true
 	}
 	if len(cq.ClaimSets) == 0 {
-		// §6.4.1: claims present, claim_sets absent — all listed claims.
+		// [OID4VP §6.4.1]: claims present, claim_sets absent — all listed claims.
 		for i := range cq.Claims {
 			c := &cq.Claims[i]
 			if claimOK(cq.Format, c, cand.Claims) {
@@ -179,7 +179,7 @@ func claimsSatisfied(cq *CredentialQuery, cand *Candidate) (used, failed []strin
 		}
 		return used, nil, true
 	}
-	// §6.4.1: both present — options in preference order; first satisfiable
+	// [OID4VP §6.4.1]: both present — options in preference order; first satisfiable
 	// option wins.
 	byID := make(map[string]*ClaimsQuery, len(cq.Claims))
 	for i := range cq.Claims {
@@ -209,7 +209,7 @@ func claimsSatisfied(cq *CredentialQuery, cand *Candidate) (used, failed []strin
 	return nil, failed, false
 }
 
-// claimOK: one claims query against one candidate (§6.3: with values, at
+// claimOK: one claims query against one candidate ([OID4VP §6.3]: with values, at
 // least one selected claim must equal one of the requested values).
 func claimOK(format string, c *ClaimsQuery, claims map[string]any) bool {
 	vals, err := Resolve(format, claims, c.Path)
@@ -275,10 +275,10 @@ func mergePaths(a, b []string) []string {
 	return out
 }
 
-// setsSatisfied applies OID4VP §6.4.2.
+// setsSatisfied applies [OID4VP §6.4.2].
 func (q *Query) setsSatisfied(sat map[string]bool, res *MatchResult) bool {
 	if len(q.CredentialSets) == 0 {
-		// §6.4.2: credential_sets absent — every credential query required.
+		// [OID4VP §6.4.2]: credential_sets absent — every credential query required.
 		for i := range q.Credentials {
 			if !sat[q.Credentials[i].ID] {
 				return false
@@ -308,13 +308,13 @@ func (q *Query) setsSatisfied(sat map[string]bool, res *MatchResult) bool {
 			ok = false
 		}
 	}
-	// Recorded interpretation (WP-05 Decisions, Step 6): with
+	// Recorded interpretation: with
 	// credential_sets present, queries not referenced by any set are
 	// optional.
 	return ok
 }
 
-// valueEqual compares a query value (§6.3: string, integer, boolean —
+// valueEqual compares a query value ([OID4VP §6.3]: string, integer, boolean —
 // json.Number after Parse) with a claim value from a verified credential
 // (JSON decode: float64/json.Number; CBOR decode: int64/uint64).
 func valueEqual(queryVal, claimVal any) bool {

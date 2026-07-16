@@ -6,7 +6,7 @@ import (
 )
 
 // RegisteredCredential mirrors one Credential entry of the client's ARF TS5
-// registered intended use (ARF TS5 v1.3 §2.4.1/2.4.4 — WP-05 spec refs).
+// registered intended use ([ARF TS5 §2.4.1/2.4.4]).
 type RegisteredCredential struct {
 	Format         string
 	DoctypesOrVCTs []string    // registered doctype(s) (mdoc) or vct value(s) (sd-jwt)
@@ -32,7 +32,7 @@ func (q *Query) WithinScope(registered []RegisteredCredential) (bool, []string) 
 			continue
 		}
 		if len(cq.Claims) == 0 {
-			// §6.4.1: claims absent still discloses the credential's
+			// [OID4VP §6.4.1]: claims absent still discloses the credential's
 			// mandatory-to-present claims — requires a full registration.
 			if !anyAllClaims(regs) {
 				offenses = append(offenses, fmt.Sprintf("credentials[%d](%s): requests mandatory claim set but registration lists specific claims only", i, cq.ID))
@@ -108,7 +108,7 @@ func pathRegistered(p ClaimPath, regs []*RegisteredCredential) bool {
 
 // pathCovered: a registered path covers a query path of equal length when
 // each element matches; a registered wildcard also covers a concrete index
-// or wildcard at that position (recorded interpretation, WP-05 Decisions).
+// or wildcard at that position (recorded interpretation).
 func pathCovered(registered, query ClaimPath) bool {
 	if len(registered) != len(query) {
 		return false

@@ -20,7 +20,7 @@ func pidClaims() map[string]any {
 	return map[string]any{"given_name": "Arthur", "family_name": "Dent", "age_over_18": true}
 }
 
-// T-05.4 acceptance: every valid-corpus (§6-example) query has a passing and
+// Acceptance: every valid-corpus ([OID4VP §6]-example) query has a passing and
 // a failing candidate-set test.
 func TestMatchCorpus(t *testing.T) {
 	tests := []struct {
@@ -177,7 +177,7 @@ func TestMatchMultiple(t *testing.T) {
 		"last_name": "Dent", "first_name": "Arthur",
 		"address": map[string]any{"street_address": "42 Market Street"},
 	})
-	// §6.1: multiple defaults to false — two presentations for one query fail.
+	// [OID4VP §6.1]: multiple defaults to false — two presentations for one query fail.
 	res := q.Match([]dcql.Candidate{c, c})
 	if res.Satisfied {
 		t.Fatal("Satisfied = true with duplicate candidates and multiple=false")
@@ -193,7 +193,7 @@ func TestMatchMultiple(t *testing.T) {
 	}
 }
 
-// §6.1: require_cryptographic_holder_binding defaults to true.
+// [OID4VP §6.1]: require_cryptographic_holder_binding defaults to true.
 func TestMatchHolderBindingGate(t *testing.T) {
 	q := loadQuery(t, "valid", "sdjwt-basic.json")
 	c := sdjwtCand("my_credential", "https://credentials.example.com/identity_credential", map[string]any{
@@ -252,7 +252,7 @@ func TestMatchClaimsAbsent(t *testing.T) {
 	}
 }
 
-// Unmet must never carry claim values (hard rule 3 / WP-05 decision).
+// Unmet must never carry claim values.
 func TestUnmetCarriesPathsNotValues(t *testing.T) {
 	q := loadQuery(t, "valid", "values-and-wildcard.json")
 	res := q.Match([]dcql.Candidate{sdjwtCand("graduate", "https://credentials.example.com/graduate", map[string]any{

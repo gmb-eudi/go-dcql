@@ -3,9 +3,9 @@ package dcql
 import "fmt"
 
 // Resolve applies a claims path pointer to the claims of one credential.
-// SD-JWT VC: full JSON traversal per OID4VP §7.1/§7.3 — a component that
+// SD-JWT VC: full JSON traversal per [OID4VP §7.1/§7.3] — a component that
 // selects nothing resolves the whole path to no claims (empty result, nil
-// error). mdoc: exactly [namespace, element] per §7.2 — any other shape is
+// error). mdoc: exactly [namespace, element] per [OID4VP §7.2] — any other shape is
 // ErrInvalid (structural misuse, distinct from "not disclosed").
 func Resolve(format string, claims map[string]any, path ClaimPath) ([]any, error) {
 	switch format {
@@ -23,7 +23,7 @@ func Resolve(format string, claims map[string]any, path ClaimPath) ([]any, error
 		}
 		return []any{v}, nil
 	case FormatSDJWT:
-		// §7.3 processing: start with the root; apply each component to every
+		// [OID4VP §7.3] processing: start with the root; apply each component to every
 		// currently selected element.
 		cur := []any{any(claims)}
 		for _, el := range path {

@@ -38,7 +38,7 @@ func TestValidateValidCorpus(t *testing.T) {
 	}
 }
 
-// T-05.2: every invalid file rejected with a positioned error.
+// Every invalid file rejected with a positioned error.
 func TestValidateInvalidCorpus(t *testing.T) {
 	tests := []struct{ file, wantPos string }{
 		{"empty-credentials.json", "credentials"},

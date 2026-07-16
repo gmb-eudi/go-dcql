@@ -24,7 +24,7 @@ func TestPresetsValidate(t *testing.T) {
 	}
 }
 
-// T-05.7: presets appear in testdata — golden files must stay semantically
+// Presets appear in testdata — golden files must stay semantically
 // identical to the constructors (compared via Parse, not bytes).
 func TestPresetsMatchGoldenFiles(t *testing.T) {
 	for file, preset := range map[string]*dcql.Query{

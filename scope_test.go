@@ -44,7 +44,7 @@ func TestWithinScope(t *testing.T) {
 		}
 	})
 
-	// T-05.6 acceptance: superset query rejected with offending paths listed
+	// Acceptance: superset query rejected with offending paths listed
 	// (drives err:client:scope-exceeded).
 	t.Run("superset query lists offending paths", func(t *testing.T) {
 		q := scopeQuery(t, `,"claims":[{"path":["family_name"]},{"path":["birth_date"]},{"path":["nationality"]}]`)
@@ -103,7 +103,7 @@ func TestWithinScope(t *testing.T) {
 	})
 
 	// Union semantics: claims referenced only through claim_sets still count
-	// ("every claim the query could request" — WP-05 README).
+	// ("every claim the query could request").
 	t.Run("claim_sets union checked", func(t *testing.T) {
 		raw := `{"credentials":[{"id":"pid","format":"dc+sd-jwt","meta":{"vct_values":["urn:eudi:pid:1"]},
 			"claims":[{"id":"a","path":["family_name"]},{"id":"b","path":["tax_id"]}],

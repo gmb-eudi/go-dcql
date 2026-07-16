@@ -8,7 +8,7 @@ import (
 	"github.com/gmb-eudi/go-dcql"
 )
 
-// OID4VP §7 non-normative example object.
+// [OID4VP §7] non-normative example object.
 func sdjwtClaims() map[string]any {
 	return map[string]any{
 		"name": "Arthur Dent",
@@ -83,7 +83,7 @@ func TestResolveMdoc(t *testing.T) {
 			}
 		})
 	}
-	// §7.2: structural misuse is an error, not an empty result.
+	// [OID4VP §7.2]: structural misuse is an error, not an empty result.
 	for name, path := range map[string]dcql.ClaimPath{
 		"one element":    dcql.NewPath(dcql.Key("org.iso.18013.5.1")),
 		"three elements": dcql.NewPath(dcql.Key("a"), dcql.Key("b"), dcql.Key("c")),

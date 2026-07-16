@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-// ClaimPath is an OID4VP §7 claims path pointer: a non-empty array whose
+// ClaimPath is an [OID4VP §7] claims path pointer: a non-empty array whose
 // elements select object keys (string), array indices (non-negative
 // integer), or all elements of an array (null).
 type ClaimPath []PathElement
@@ -43,7 +43,7 @@ func Wildcard() PathElement { return PathElement{Kind: KindWildcard} }
 // NewPath constructs a ClaimPath from path elements.
 func NewPath(elems ...PathElement) ClaimPath { return ClaimPath(elems) }
 
-// UnmarshalJSON enforces §7 syntax: string | non-negative integer | null.
+// UnmarshalJSON enforces [OID4VP §7] syntax: string | non-negative integer | null.
 func (p *ClaimPath) UnmarshalJSON(b []byte) error {
 	var raw []any
 	dec := json.NewDecoder(bytes.NewReader(b))

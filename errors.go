@@ -15,7 +15,7 @@ var (
 )
 
 // ValidationError pinpoints one violation, e.g. Pos
-// "credentials[0].claims[1].path". Never contains claim values (hard rule 3).
+// "credentials[0].claims[1].path". Never contains claim values.
 type ValidationError struct {
 	Pos string
 	Msg string
