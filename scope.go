@@ -6,7 +6,8 @@ import (
 )
 
 // RegisteredCredential mirrors one Credential entry of the client's ARF TS5
-// registered intended use ([ARF TS5 §2.4.1/2.4.4]).
+// registered intended use — the Claim ([ARF TS5 v1.3 §2.4.1]) and Credential
+// ([ARF TS5 v1.3 §2.4.4]) classes.
 type RegisteredCredential struct {
 	Format         string
 	DoctypesOrVCTs []string    // registered doctype(s) (mdoc) or vct value(s) (sd-jwt)
