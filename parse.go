@@ -17,7 +17,7 @@ func Parse(raw []byte) (*Query, error) {
 	dec.UseNumber()
 	var q Query
 	if err := dec.Decode(&q); err != nil {
-		return nil, fmt.Errorf("%w: %v", ErrParse, err)
+		return nil, fmt.Errorf("%w: %w", ErrParse, err)
 	}
 	if dec.More() {
 		return nil, fmt.Errorf("%w: trailing data after query object", ErrParse)
