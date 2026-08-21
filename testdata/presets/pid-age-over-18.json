@@ -1,0 +1,23 @@
+{
+  "credentials": [
+    {
+      "id": "pid_mdoc",
+      "format": "mso_mdoc",
+      "meta": { "doctype_value": "eu.europa.ec.eudi.pid.1" },
+      "claims": [
+        { "path": ["eu.europa.ec.eudi.pid.1", "age_over_18"], "values": [true] }
+      ]
+    },
+    {
+      "id": "pid_sdjwt",
+      "format": "dc+sd-jwt",
+      "meta": { "vct_values": ["urn:eudi:pid:1"] },
+      "claims": [
+        { "path": ["age_over_18"], "values": [true] }
+      ]
+    }
+  ],
+  "credential_sets": [
+    { "options": [["pid_mdoc"], ["pid_sdjwt"]] }
+  ]
+}

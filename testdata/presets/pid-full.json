@@ -1,0 +1,17 @@
+{
+  "credentials": [
+    {
+      "id": "pid_mdoc",
+      "format": "mso_mdoc",
+      "meta": { "doctype_value": "eu.europa.ec.eudi.pid.1" }
+    },
+    {
+      "id": "pid_sdjwt",
+      "format": "dc+sd-jwt",
+      "meta": { "vct_values": ["urn:eudi:pid:1"] }
+    }
+  ],
+  "credential_sets": [
+    { "options": [["pid_mdoc"], ["pid_sdjwt"]] }
+  ]
+}

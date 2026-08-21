@@ -1,0 +1,5 @@
+// Package dcql implements the OpenID4VP 1.0 Digital Credentials Query
+// Language ([OID4VP §6]) and claims path pointers ([OID4VP §7]): model, strict parsing,
+// validation, matching of already-verified credentials, and ARF TS5
+// registered-scope checks. No crypto lives here.
+package dcql

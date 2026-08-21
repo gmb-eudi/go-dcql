@@ -1,0 +1,16 @@
+{
+  "credentials": [
+    {
+      "id": "pid",
+      "format": "dc+sd-jwt",
+      "meta": { "vct_values": ["urn:eudi:pid:1"] },
+      "trusted_authorities": [
+        { "type": "aki", "values": ["s9tIpPmhxdiuNkHMEWNpYim8S8Y"] },
+        { "type": "etsi_tl", "values": ["https://lotl.example.eu"] }
+      ],
+      "claims": [
+        { "path": ["family_name"] }
+      ]
+    }
+  ]
+}
