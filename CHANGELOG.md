@@ -3,6 +3,29 @@
 Notable changes to this library, newest first. Versions are git tags; this file is written
 for whoever bumps the dependency.
 
+## v0.0.3
+
+**Requires Go 1.27.0.** The `go` directive moves up from 1.26.6, so a consumer on an older
+toolchain will not build this version. Nothing else changed here — no source, no signature, no
+message text, and the dependency graph is untouched.
+
+### Changed
+
+- **`go` directive 1.26.6 → 1.27.0** — the minimum Go version a consumer needs. The services
+  in this project already required 1.27.0 while the libraries were the half still behind, so
+  they are brought up together and the whole codebase now asks for one toolchain.
+
+### Notes
+
+- The gate is green on the new directive: `go mod verify`, `go mod tidy -diff`, build, vet,
+  `gofmt`, and `go test -race` with **0 races** under a Go 1.27.0 toolchain. `govulncheck`
+  reports **no vulnerabilities found** — this library requires no `golang.org/x/crypto`, so
+  it does not carry the module-level advisory its siblings do.
+
+- Repository hygiene, with no effect on code that uses the library: CI now also runs on pushes
+  to `develop`, the pinned GitHub Actions moved to their current commits, the `setup-go` pin
+  rolled forward to v7.0.0, and `.gitattributes` now pins its own line endings.
+
 ## v0.0.2
 
 Compatible: no signature changes, no message-text changes, nothing that passed before now
