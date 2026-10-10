@@ -5,26 +5,29 @@ for whoever bumps the dependency.
 
 ## v0.0.3
 
-**Requires Go 1.27.0.** The `go` directive moves up from 1.26.6, so a consumer on an older
-toolchain will not build this version. Nothing else changed here — no source, no signature, no
-message text, and the dependency graph is untouched.
+**Requires Go 1.27.2.** The `go` directive moves up from 1.26.6, so a consumer on an older
+toolchain will not build this version. Nothing else changed here: no source, no signature, no
+message text, and the library still has no dependencies.
 
 ### Changed
 
-- **`go` directive 1.26.6 → 1.27.0** — the minimum Go version a consumer needs. The services
-  in this project already required 1.27.0 while the libraries were the half still behind, so
-  they are brought up together and the whole codebase now asks for one toolchain.
+- **`go` directive 1.26.6 → 1.27.2**, the minimum Go version a consumer needs. No vulnerability
+  in Go 1.27.0 reached this library's code (`govulncheck` found none before the move either). The
+  minimum moves with the sibling libraries, which do need Go 1.27.2's security fixes, so a consumer
+  has one Go version to meet. Raise your own module's `go` directive to `1.27.2`; from there the go
+  command downloads and uses that toolchain by itself.
 
 ### Notes
 
-- The gate is green on the new directive: `go mod verify`, `go mod tidy -diff`, build, vet,
-  `gofmt`, and `go test -race` with **0 races** under a Go 1.27.0 toolchain. `govulncheck`
-  reports **no vulnerabilities found** — this library requires no `golang.org/x/crypto`, so
-  it does not carry the module-level advisory its siblings do.
+- The gate is green on Go 1.27.2: `go mod verify`, `go mod tidy -diff`, build, vet, `gofmt`,
+  golangci-lint v2.14.0, `go test -race` with **0 races**, and the fuzz target for 30 seconds
+  with no failing input. `govulncheck` reports **no vulnerabilities found**.
 
 - Repository hygiene, with no effect on code that uses the library: CI now also runs on pushes
   to `develop`, the pinned GitHub Actions moved to their current commits, the `setup-go` pin
-  rolled forward to v7.0.0, and `.gitattributes` now pins its own line endings.
+  rolled forward to v7.0.0, `.gitattributes` now pins its own line endings, and CI's linter moved
+  to golangci-lint v2.14.0 (the earlier release cannot read Go 1.27.2's compiled standard
+  library).
 
 ## v0.0.2
 
