@@ -3,6 +3,32 @@
 Notable changes to this library, newest first. Versions are git tags; this file is written
 for whoever bumps the dependency.
 
+## v0.0.3
+
+**Requires Go 1.27.2.** The `go` directive moves up from 1.26.6, so a consumer on an older
+toolchain will not build this version. Nothing else changed here: no source, no signature, no
+message text, and the library still has no dependencies.
+
+### Changed
+
+- **`go` directive 1.26.6 → 1.27.2**, the minimum Go version a consumer needs. No vulnerability
+  in Go 1.27.0 reached this library's code (`govulncheck` found none before the move either). The
+  minimum moves with the sibling libraries, which do need Go 1.27.2's security fixes, so a consumer
+  has one Go version to meet. Raise your own module's `go` directive to `1.27.2`; from there the go
+  command downloads and uses that toolchain by itself.
+
+### Notes
+
+- The gate is green on Go 1.27.2: `go mod verify`, `go mod tidy -diff`, build, vet, `gofmt`,
+  golangci-lint v2.14.0, `go test -race` with **0 races**, and the fuzz target for 30 seconds
+  with no failing input. `govulncheck` reports **no vulnerabilities found**.
+
+- Repository hygiene, with no effect on code that uses the library: CI now also runs on pushes
+  to `develop`, the pinned GitHub Actions moved to their current commits, the `setup-go` pin
+  rolled forward to v7.0.0, `.gitattributes` now pins its own line endings, and CI's linter moved
+  to golangci-lint v2.14.0 (the earlier release cannot read Go 1.27.2's compiled standard
+  library).
+
 ## v0.0.2
 
 Compatible: no signature changes, no message-text changes, nothing that passed before now
